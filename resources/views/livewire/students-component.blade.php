@@ -31,9 +31,9 @@
                                             <td>{{ $student->email}}</td>
                                             <td>{{ $student->phone}}</td>
                                             <td style="text-align:center;">
-                                                <button class="btn btn-sm btn-secondary">View</button>
+                                                <button class="btn btn-sm btn-secondary" wire:click="viewStudentDetalis({{ $student->id }})">View</button>
                                                 <button class="btn btn-sm btn-primary" wire:click="editStudents({{ $student->id }})">Edit</button>
-                                                <button class="btn btn-sm btn-danger">Delete</button>
+                                                <button class="btn btn-sm btn-danger" wire:click="deleteConfirmation({{ $student->id }})">Delete</button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -173,6 +173,64 @@
         </div>
     </div>
 
+    <div wire:ignore.self class="modal fade" id="deletexampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Conformation</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body pt-4 pb-4">
+                    <h5>Are you sure? You want to delete this student data!</h5>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-primary" wire:model="cancel()" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button class="btn btn-sm btn-danger"wire:click="deleteStudentData()">Yes! Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="viewexampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Student information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeViewStudentModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>ID:</th>
+                                <th>{{ $view_student_id}}</th>
+                            </tr>
+
+                            <tr>
+                                <th>Name:</th>
+                                <th>{{ $view_student_name}}</th>
+                            </tr>
+
+                            <tr>
+                                <th>Email:</th>
+                                <th>{{ $view_student_email}}</th>
+                            </tr>
+
+                            <tr>
+                                <th>Phone:</th>
+                                <th>{{ $view_student_phone}}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 
@@ -181,10 +239,17 @@
         window.addEventListener('close-modal', event =>{
             $('#exampleModal').modal('hide');
             $('#editexampleModal').modal('hide');
+            $('#deleteexampleModal').modal('hide');
         });
 
         window.addEventListener('show-edit-student-modal', event =>{
             $('#editexampleModal').modal('show');
+        });
+        window.addEventListener('show-delete-confirmation-modal', event =>{
+            $('#deleteexampleModal').modal('show');
+        });
+        window.addEventListener('show-view-student-modal', event =>{
+            $('#viewexampleModal').modal('show');
         });
     </script>
 @endpush
